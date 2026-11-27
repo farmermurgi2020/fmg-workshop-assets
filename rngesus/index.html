@@ -349,7 +349,10 @@ const dlg = document.getElementById("dlg");
 dlg.addEventListener("click", e => { if (e.target === dlg) close(); });
 dlg.addEventListener("close", () => history.replaceState(null, "", location.pathname + location.search));
 render();
-const fromHash = () => { const s = location.hash.slice(1).toLowerCase(); const g = s && GEMS.find(x => slug(x.key) === s || x.name.toLowerCase().replace(/[^a-z]/g, "") === s); if (g) open(g.key, false); };
+const TAB_HASH = { quirks: "quirk", curses: "curse", growth: "growth", skills: "skill" };   // #skills opens that tab
+const fromHash = () => { const s = location.hash.slice(1).toLowerCase();
+  if (TAB_HASH[s]) { document.querySelector(`#kinds button[data-v="${TAB_HASH[s]}"]`).click(); return; }
+  const g = s && GEMS.find(x => slug(x.key) === s || x.name.toLowerCase().replace(/[^a-z]/g, "") === s); if (g) open(g.key, false); };
 fromHash(); window.addEventListener("hashchange", fromHash);
 </script>
 </body>
